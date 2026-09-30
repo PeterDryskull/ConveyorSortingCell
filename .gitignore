@@ -1,0 +1,25 @@
+# TwinCAT build output (regenerated on every build)
+_Boot/
+_CompileInfo/
+_Libraries/
+_ModuleInstall/
+*.~u
+*.tpy
+*.compileinfo
+*.compiled-library
+*.library
+LineIDs.dbg
+LineIDs.dbg.bak
+*.tsproj.bak
+*.xti.bak
+
+# Generated type info. Revisit if we later use the EventLogger, which stores alarm texts here
+*.tmc
+
+# Licence files, machine-specific
+*.tclrs
+
+# Visual Studio user files
+.vs/
+*.suo
+*.user

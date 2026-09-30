@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="MAIN" Id="{5e53fb4b-b354-4bf2-86f5-015fc1945bb7}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	Lamp : BOOL;  //Lamp False is off True is on
+	Timer : TON; // Lamp off Timer
+	Timer2 : TON; //Lamp on Timer
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+//Turns the light on and off using two timers you can set them to be different times!
+Timer(IN := NOT Lamp, PT := T#5000MS);
+IF Timer.Q THEN
+	Lamp := TRUE;
+END_IF;
+
+Timer2(IN := Lamp, PT := T#500MS);
+IF Timer2.Q THEN
+	Lamp := FALSE;
+END_IF;
+
+
+(*
+//Toggles the light on and off on the same timer only uses 1 timer though.
+Timer(IN := NOT Timer.Q,PT:= T#500MS);
+IF Timer.Q THEN
+	Lamp := NOT Lamp;
+END_IF;
+
+*)]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>
