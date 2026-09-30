@@ -3,33 +3,45 @@
   <POU Name="MAIN" Id="{5e53fb4b-b354-4bf2-86f5-015fc1945bb7}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	Lamp : BOOL;  //Lamp False is off True is on
-	Timer : TON; // Lamp off Timer
-	Timer2 : TON; //Lamp on Timer
+	bLamp : BOOL;  //Lamp False is off True is on
+	fbTimer : TON; // Lamp off Timer
+	fbTimer2 : TON; //Lamp on Timer
+	
+	bButton : BOOL; //Button
+	fbButtonEdge : R_TRIG; //Button state down change detector
+	nPressCount : INT; //number of presses
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
+      <ST><![CDATA[(*
 //Turns the light on and off using two timers you can set them to be different times!
-Timer(IN := NOT Lamp, PT := T#5000MS);
-IF Timer.Q THEN
-	Lamp := TRUE;
+fbTimer(IN := NOT bLamp, PT := T#5000MS);
+IF fbTimer.Q THEN
+	bLamp := TRUE;
 END_IF;
 
-Timer2(IN := Lamp, PT := T#500MS);
-IF Timer2.Q THEN
-	Lamp := FALSE;
+fbTimer2(IN := bLamp, PT := T#500MS);
+IF fbTimer2.Q THEN
+	bLamp := FALSE;
 END_IF;
-
+*)
 
 (*
 //Toggles the light on and off on the same timer only uses 1 timer though.
-Timer(IN := NOT Timer.Q,PT:= T#500MS);
-IF Timer.Q THEN
-	Lamp := NOT Lamp;
+fbTimer(IN := NOT fbTimer.Q,PT:= T#500MS);
+IF fbTimer.Q THEN
+	bLamp := NOT Lamp;
 END_IF;
 
-*)]]></ST>
+*)
+fbTimer(IN := TRUE, PT := T#500S);
+fbButtonEdge(CLK := bButton);
+IF fbButtonEdge.Q THEN
+	nPressCount := nPressCount + 1;
+END_IF;
+
+]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>
